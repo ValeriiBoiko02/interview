@@ -132,6 +132,52 @@ git push -u origin main
 
 Verify SSH once with `ssh -T git@github.com`. To switch an existing repo between methods, just change the URL: `git remote set-url origin <new-url>`. Account passwords haven't been accepted for Git operations for years — use a PAT or SSH.
 
+## Working with the repo (the everyday loop)
+
+The repo is published — now day-to-day work is a short, repeating cycle. The commands below are the practical 90%; the deeper "why" lives in the rest of this theme.
+
+**The core loop** — edit, review, stage, commit, push:
+
+```bash
+git status                       # what changed (staged / unstaged / untracked)
+git diff                         # review unstaged changes line by line
+git add src/login.ts             # stage exactly what belongs in this commit
+git add -p                       # ...or pick individual hunks interactively
+git commit -m "Add login retry on 401"   # small, logical commit; imperative message
+git push                         # upstream is already set, so no args needed
+```
+
+Commit in small, self-contained units with clear imperative messages ("Add…", "Fix…") — it makes history, review, and `revert`/`bisect` actually useful.
+
+**Stay in sync with the remote** — pull before you start and before you push, so you build on the latest code and avoid rejected (non-fast-forward) pushes:
+
+```bash
+git pull                         # fetch + merge teammates' changes into your branch
+# prefer to look before you leap?
+git fetch
+git log --oneline main..origin/main   # see what's incoming without changing your work
+```
+
+**Branch, don't work directly on `main`** — in any shared repo, do work on a branch and merge via a Pull Request so review and CI gate it:
+
+```bash
+git switch -c feature/api-tests  # new branch off your current one
+# ...the core loop above...
+git push -u origin feature/api-tests   # publish the branch + set upstream
+# then open a Pull Request on GitHub for review + CI
+```
+
+**Inspect history & undo small mistakes:**
+
+```bash
+git log --oneline --graph --decorate    # visualize history and where branches point
+git restore src/login.ts                # discard unstaged edits to a file
+git restore --staged src/login.ts       # unstage a file (keep the edits)
+git commit --amend                       # fix the last commit's message/content (before pushing)
+```
+
+**Go deeper:** the daily mechanics here are expanded in [branching & merging](./03-branching-and-merging.md), [undoing changes](./04-undoing-changes.md) (the full reset/revert/stash/reflog toolkit), and [remotes & collaboration](./05-remotes-and-collaboration.md) (`fetch` vs `pull`, tracking branches, PRs).
+
 ## Handy snippets
 
 The complete clean-folder → published flow (SSH, manual remote):
@@ -186,6 +232,8 @@ git push
 - **Using your GitHub password at the push prompt** — fails; it expects a PAT (HTTPS) or you should be on SSH.
 - **`master` vs `main` mismatch** — older Git defaults to `master`; set `init.defaultBranch main` so local and GitHub's default agree and `push -u origin main` doesn't create an unexpected branch.
 - **Wrong remote URL / typo'd username** — `git remote -v` to verify; `git remote set-url origin <url>` to fix rather than removing and re-adding.
+- **Pushing without pulling first** — if the remote moved, your push is rejected as non-fast-forward. `git pull` (or `git fetch` + rebase) to integrate, then push.
+- **Committing straight to `main` in a shared repo** — bypasses review and CI. Branch + open a PR so the change is gated before it lands on `main`.
 
 ## Further Reading
 

@@ -28,10 +28,6 @@ Structure is **fit-for-purpose**, not fixed, but every file meets the same quali
 - **Day-of review:** read just the **recap / TL;DR** at the top of each topic in the themes you're shaky on.
 - **Self-testing:** cover the answers in the **Interview Q&A** and respond out loud first.
 
-## Adding content
-
-Tell the assistant: **"add theme: <name>"**. It will scaffold the theme folder, break it into topics, write each topic in its best-fit structure, and keep the index below up to date. Conventions and quality bar live in [`CLAUDE.md`](./CLAUDE.md); authoring patterns and example shapes live in [`_templates/topic-template.md`](./_templates/topic-template.md).
-
 ## Themes index
 
 | Theme | Description | Topics |
