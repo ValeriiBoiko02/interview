@@ -32,4 +32,5 @@ Structure is **fit-for-purpose**, not fixed, but every file meets the same quali
 
 | Theme | Description | Topics |
 |-------|-------------|--------|
+| [Playwright](./playwright/) | The primary stack, end to end: setup & config, the runner, locators, auto-waiting, web-first assertions, fixtures, page objects & architecture, network mocking, auth/storage state, API testing, parallelism/sharding, debugging & trace viewer, reporters & CI, flakiness. | 14 |
 | [Git](./git/) | Version control: publishing to GitHub, fundamentals, branching/merging, undoing changes, remotes & collaboration, workflows & branch protection. | 6 |
